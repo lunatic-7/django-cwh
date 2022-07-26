@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/258973f2c5.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body style="margin: 0; padding: 0; font-family:cursive;">
+
+    <nav
+        style="border: 2px solid black; background-color: #111; position: sticky; top: 0; opacity: 0.85; display: flex; justify-content: space-between;">
+        <div style="display: flex;">
+            <p style="margin-left: 1rem; color: white;">Amazon <span
+                    style="background-color: black; color: white; padding: 0.3rem;">LITE</span></p>
+
+            <ul style="display: flex;">
+                <li style="list-style-type: none;"><a href="/shop" style="text-decoration: none; color: white;">Home</a>
+                </li>
+                <li style="list-style-type: none; margin-left: 2rem;"><a href="/shop/about"
+                        style="text-decoration: none; color: white;">About Us</a></li>
+                <li style="list-style-type: none; margin-left: 2rem;"><a href="/shop/tracker"
+                        style="text-decoration: none; color: white;">Tracker</a></li>
+                <li style="list-style-type: none; margin-left: 2rem;"><a href="/shop/contact"
+                        style="text-decoration: none; color: white;">Contact Us</a></li>
+                <li style="list-style-type: none; margin-left: 2rem;"><a href="/blog"
+                        style="text-decoration: none; color: white;">Blog</a></li>
+
+
+            </ul>
+        </div>
+        <ul style="display: flex;">
+            {% block list %} {% endblock %}
+        </ul>
+    </nav>
+
+    {% block body %} {% endblock %}
+
+    {% block js %} {% endblock %}
+
+</body>
+
+</html>

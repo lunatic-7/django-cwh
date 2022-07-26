@@ -1,0 +1,30 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} Contact Us {% endblock %}
+
+{% block body %} 
+
+    <h2 style="margin-top: 2rem; margin-left: 10rem; font-family: 'Courier New', Courier, monospace; text-decoration: underline;">Contact Us</h2>
+    <form action="/shop/contact/" method="post" style="display: flex; flex-direction: column; width: 50%; margin: 2rem; margin-left: 10rem; background-color: #fff; padding: 3rem; box-shadow: 2px 2px 10px 10px #dcdcdc;"> {% csrf_token %}
+
+        <input for="name" type="text" name="name" id="" placeholder="Name" style="display: block; width: 100%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+        <input for="email" type="email" name="email" id="" placeholder="E-Mail" style="display: block; width: 100%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+        <input for="phone" type="phone" name="phone" id="" placeholder="Mobile" style="display: block; width: 100%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+        <textarea for="desc" name="desc" id="" cols="30" rows="10" style="display: block; width: 100%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">Type Your Message Here.</textarea>
+        <button type="submit" style="background-color: black; color: white; padding: 7px 14px; cursor: pointer; margin-top: 1rem;">SUBMIT</button>
+    </form>
+
+{% block js %} 
+
+<script>
+    {% if thank %}
+    
+        alert("Your Request is Submitted, Thank You!");
+        document.location = "/shop"
+    
+    {% endif %}
+</script>
+
+{% endblock %}
+
+{% endblock %}

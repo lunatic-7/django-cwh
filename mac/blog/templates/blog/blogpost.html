@@ -1,0 +1,36 @@
+{% extends 'blog/basic.html' %}
+
+{% block title %} Blogs {% endblock %}
+
+{% block body %}
+
+<div style="display: flex; justify-content: space-between; padding: 2rem 7rem;">
+    <div class="left" style="width: 60%;">
+        <div class="blog_post" style="margin-top: 2rem;">
+            <h2>{{post.title}}</h2>
+            <hr>
+            <h3>{{post.head0}}</h3>
+            <p>{{post.pub_date}} by <span style="color: rgb(9, 130, 167);">Mano</span></p>
+            <p>{{post.chead0}}</p>
+            <h3>{{post.head1}}</h3>
+            <p>{{post.chead1}}</p>
+            <h3>{{post.head2}}</h3>
+            <p>{{post.chead2}}</p>
+            <div class="fb-comments" data-href="http://127.0.0.1:8000/blog/blogpost/{{post.post_id}}" data-width="" data-numposts="5"></div>
+        </div>
+    </div>
+    <div class="right" style="width: 30%; margin-top: 2rem;">
+        <div class="about" style="box-shadow: 2px 2px 5px #999; padding: 1rem; background-color: #f3f7f7;;">
+            <h3>About</h3>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat, non. Delectus similique fuga expedita ipsa dignissimos veritatis, repudiandae neque? Pariatur.</p>
+        </div>
+        <div class="contact" style="display: flex; flex-direction: column;">
+            <h3>Contact Us On:</h3>
+            <a style="text-decoration: none;" href="">Github</a>
+            <a style="text-decoration: none;" href="">Twitter</a>
+            <a style="text-decoration: none;" href="">Facebook</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} {{product.product_name}} {% endblock %}
+
+{% block list %}
+
+<!-- <hr style="padding: 1rem 0; margin: -0.3rem 0rem;"> -->
+<li style="list-style-type: none; margin-left: 2rem; margin-right: 5rem;"><a id="cart_nav"
+        style="text-decoration: none; color: white; cursor: pointer;"><i class="fa-solid fa-cart-shopping"></i>&nbsp;
+        &#10137; &nbsp;<span id="cart">0</span></a></li>
+
+{% endblock %}
+
+{% block body %}
+
+<div id="cart_box"
+    style="background-color: #dcdcdc; height: fit-content; width: 17rem; padding: 1rem; position: fixed; left: 62.8%; display: none; opacity: 0.8;">
+    Nothing to show...
+</div>
+
+<div style="display: flex; width: 75%;">
+    <div class="img"">
+        <img src="/media/{{product.image}}" alt="">
+    </div>
+    <div class="detail" style="margin-top: 7rem; margin-left: 5rem;">
+        <h2>{{product.product_name}}</h2>
+        <p>{{product.desc}}</p>
+        <h4 style="margin-bottom: 3rem;">Price: ₹{{product.price}}</h4>
+        <a class="cart" id="pr{{product.id}}" style="background-color: black; color: white; padding: 7px 14px; cursor: pointer; margin-right: 2rem;">Add To Cart</a>
+        <a id="pr{{product.id}}" style="background-color: black; color: white; padding: 7px 14px; cursor: pointer;">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    console.log("Working...")
+    if (localStorage.getItem("cart") == null) {
+        var cart = {}
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem("cart"))
+        var total = 0;
+        for (let iterator of Object.values(cart)) {
+            total += iterator[0]
+        }
+        console.log(total)
+        document.getElementById("cart").innerHTML = total
+    }
+
+    btn = document.getElementsByClassName("cart")
+
+    Array.from(btn).forEach(element => {
+        element.addEventListener("click", () => {
+            console.log("clicked!")
+            var idstr = element.id
+            console.log(element.id)
+            if (cart[idstr][0] != undefined) {
+                cart[idstr][0]++
+            }
+            else {
+                cart[idstr][0] = 1
+            }
+            console.log(cart)
+
+            localStorage.setItem("cart", JSON.stringify(cart))
+            var total = 0;
+            for (const iterator of Object.values(cart)) {
+                total += iterator[0]
+                console.log(iterator[0]);
+            }
+            console.log(total)
+            document.getElementById("cart").innerHTML = total
+        })
+    });
+
+    cart_nav = document.getElementById("cart_nav");
+
+    cart_nav.addEventListener("click", () => {
+        cart_box = document.getElementById("cart_box")
+        if (cart_box.style.display === "none") {
+            cart_box.style.display = "block";
+        } else {
+            cart_box.style.display = "none";
+        }
+    })
+
+</script>
+{% endblock %}

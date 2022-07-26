@@ -1,0 +1,106 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} Tracker {% endblock %}
+
+{% block body %}
+<div style="margin: 1.5rem 1rem;">
+    <div style="display: flex;">
+        <h2 style="margin-left: 4rem; padding-top: 2rem;">Amazon <span
+                style="background-color: black; color: white; padding: 0.3rem;">LITE</span></h2>
+        <div style="margin-top: 2.4rem;">
+            <h3> &#10137; Tracking Your Items</h3>
+        </div>
+    </div>
+    <form id="trackerForm" action="#" style="margin: 1.5rem 4rem;" method="post">{% csrf_token %}
+        <input for="name" type="text" name="orderId" id="orderId" placeholder="Order Id"
+            style="display: block; width: 30%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+        <input for="email" type="email" name="email" id="email" placeholder="E-Mail"
+            style="display: block; width: 30%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+        <button type="submit" style="background-color: black; color: white; padding: 7px 14px; cursor: pointer;">Track
+            Order</button>
+
+    </form>
+
+
+    <h3 style="margin-left: 4rem; padding-top: 2rem;">Your Order Status:</h3>
+    <ul id="items" style="width: 70%; margin-left: 3.5rem; padding: 1rem 0.5rem;">
+        Enter your Order Id and Email, to track your order!
+    </ul>
+
+    <h3 style="margin-left: 4rem; padding-top: 2rem;">Your Order Details:</h3>
+    <ul id="citems" style="width: 70%; margin-left: 3.5rem; padding: 1rem 0.5rem;">
+        Nothing to Display
+    </ul>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+    $('#trackerForm').submit(function (event) {  // Submit kra to ye function chlega
+        $('#items').empty();  // items id wale element to empty kr dega
+        $('#citems').empty();  // items id wale element to empty kr dega
+        var formData = {
+            'orderId': $('input[name=orderId]').val(),
+            'email': $('input[name=email]').val(),
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/shop/tracker/',
+            data: formData,
+            encode: true
+        })
+
+            .done(function (data) {
+                console.log(data)
+                data = JSON.parse(data)
+                updates = data[0]
+                if (updates != undefined) {
+                    for (i = 0; i < updates.length; i++) {
+                        let text = updates[i]["text"];
+                        let time = updates[i]["time"];
+
+                        mystr = `<li style="display: flex; justify-content: space-between; border: 2px dashed black; padding: 0.7rem;">${text}
+                    <span style="background-color: black; color: #fff; padding: 0.3rem;">${time}</span>
+                </li>`
+                        $("#items").append(mystr);
+                    }
+
+                    // Fill in the order details
+                    cart = JSON.parse(data[1])
+                    for (item in cart) {
+                        let name = cart[item][1];
+                        let qty = cart[item][0];
+
+                        mystr2 = `<div style="border: 2px dashed black; padding: 0.7rem;">
+                        <li style="display: flex; justify-content: space-between;">${name}
+                        <span style="background-color: black; color: #fff; padding: 0.3rem;">Quantity - ${qty}</span>
+                        </li>
+                        </div>`
+                        $("#citems").append(mystr2);
+                    }
+                }
+                else {
+                    mystr = `<hr><li style="display: flex; justify-content: space-between;">
+                        Sorry, No Updates!
+                </li>
+                <hr>`
+                    $("#items").append(mystr);
+                    mystr2 = `<hr><li style="display: flex; justify-content: space-between;">
+                        Sorry, No Updates!
+                </li>
+                <hr>`
+                    $("#citems").append(mystr2);
+                }
+            });
+
+        event.preventDefault();
+    });
+</script>
+
+
+
+{% endblock %}

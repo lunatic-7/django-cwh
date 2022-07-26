@@ -1,0 +1,24 @@
+{% extends 'blog/basic.html' %}
+
+{% block title %} Blogs {% endblock %}
+
+{% block body %}
+
+<div style="display: flex; justify-content: space-evenly; padding: 1rem; margin: 1rem;flex-wrap: wrap;">
+    {% for i in blog %}
+    <div class="blog" style="display: flex; justify-content: space-between; width: 45%; margin-top: 2rem; box-shadow: 2px 2px 5px #999; padding: 1rem;">
+        <div class="content">
+            <h4 style="color: rgb(9, 130, 167);">{{i.title}}</h4>
+            <h2 >{{i.head0}}</h2>
+            <p style="color: grey;">{{i.pub_date}}</p>
+            <p>{{i.chead0}}</p>
+            <a style="text-decoration: none;" href="/blog/blogpost/{{i.post_id}}">Continue reading...</a>
+        </div>
+        <div class="img">
+            <img style="height: 13rem; width: 20rem;" src="/media/{{i.thumbnail}}" alt="">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

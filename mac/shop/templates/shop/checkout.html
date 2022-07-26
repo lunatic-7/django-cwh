@@ -1,0 +1,126 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} CheckOut{% endblock %}
+
+{% block body %}
+<div style="margin: 1.5rem 1rem;">
+    <div style="display: flex;">
+        <h2 style="margin-left: 4rem; padding-top: 2rem;">Amazon <span
+                style="background-color: black; color: white; padding: 0.3rem;"> LITE </span></h2>
+        <div style="margin-top: 2.4rem;">
+            <h3> &#10137; Cart Review</h3>
+        </div>
+    </div>
+
+    <ul id="items" style="width: 70%; margin-left: 3.5rem; padding: 1rem 0.5rem;">
+        
+    </ul>
+    <ul id="bill" style="width: 30%; margin-left: 4rem; padding: 0.5rem 0.5rem; border: 2px solid black;">
+        <h2 style="text-align: center;">Your Bill of Amazon Lite</h2>
+    </ul>
+
+    <h3 style="margin-left: 4rem; padding-top: 2rem;">Address & Other Details</h3>
+    <form method="post" action="/shop/checkout/" style="width: 70%; margin-left: 3rem; background-color: #f3f7f7; padding: 2rem 1rem; margin-bottom: 1rem;"> {% csrf_token %}
+        <input type="hidden" name="itemsJson" id="itemsJson">
+        <input type="hidden" name="amount" id="amount">
+        <div style="display: flex; justify-content: space-between;">
+            <input for="name" type="text" name="name" id="name" placeholder="Name"
+                style="display: block; width: 30%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+            <input for="email" type="email" name="email" id="email" placeholder="E-Mail"
+                style="display: block; width: 30%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+            <input for="phone" type="tel" name="phone" id="phone" placeholder="Mobile"
+                style="display: block; width: 30%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+        </div>
+        <div>
+            <input for="name" type="text" name="address1" id="address1" placeholder="Address"
+                style="display: block; width: 70%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+            <input for="name" type="text" name="address2" id="address2" placeholder="Address Line 2"
+                style="display: block; width: 70%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <input for="city" type="text" name="city" id="city" placeholder="City"
+                style="display: block; width: 40%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+            <input for="state" type="text" name="state" id="state" placeholder="State"
+                style="display: block; width: 30%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+            <input for="zip_code" type="text" name="zip_code" id="zip_code" placeholder="ZIP"
+                style="display: block; width: 10%; border: none; border-bottom: 2px solid #ddd; padding: 0.5rem 0; box-shadow: none; outline: none; margin-bottom: 1rem;color: #444; font-weight: 500;">
+        </div>
+        <button type="submit" style="background-color: black; color: white; padding: 7px 14px; cursor: pointer;">Place
+            Order</button>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+    if (localStorage.getItem("cart") == null) {
+        var cart = {}
+    }
+    else {
+        cart = JSON.parse(localStorage.getItem("cart"))
+        console.log(cart);
+    }
+
+    if ($.isEmptyObject(cart)) {
+        mystr =`<h4> You Cart Is Empty...</h4>`
+        console.log(mystr);
+        $("#items").append(mystr);
+    }
+    else {
+        // Showing Cart Summary
+        for (item in cart) {
+            let name = cart[item][1];
+            let qty = cart[item][0];
+
+            mystr = `<div style="border: 2px dashed black; padding: 0.7rem;">
+            <li style="display: flex; justify-content: space-between;">${name}
+                <span style="background-color: black; color: #fff; padding: 0.3rem;">Quantity - ${qty}</span>
+            </li>
+            </div>
+            `
+            $("#items").append(mystr);
+        }
+
+        // Making bill
+        var total = 0
+        for (item in cart) {
+            let name = cart[item][1];
+            let qty = cart[item][0];
+            let price = cart[item][2].slice(8)
+            total += qty * price
+
+            bill = `<li style="list-style-type: none;">
+                            <div style="display:flex; align-items: center; justify-content: space-between;">
+                                <h4>${name}</h4>
+                                <p>${qty} × ₹${price} = ₹${qty * price}</p>
+                            </div>
+                    </li><hr>`
+            
+            $("#bill").append(bill);
+        }
+
+        final_bill = `<li style="list-style-type: none;">
+            <div style="background: black; width: fit-content; color: white;">
+                <h4 style="padding: 0.5rem 1rem;">TOTAL: ₹<span id="totalPrice">${total}</span></h4>
+            </div>
+            </li>`
+
+            $("#bill").append(final_bill)
+    }
+
+    $('#itemsJson').val(JSON.stringify(cart));
+    {% if thank %}
+
+    alert("Your Order is Successful, Order Id is - {{id}}");
+    localStorage.clear()
+    document.location = "/shop"
+
+    {% endif %}
+
+    $("#amount").val($("#totalPrice").html());
+
+</script>
+
+{% endblock %}
