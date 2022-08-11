@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock title %}
+
+{% block body %}
+
+<div class="px-20 pt-20 pb-10 space-y-3 w-[70%]">
+    <h1 class="text-4xl">Welcome to iCoder</h1>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga, modi aperiam. Porro eveniet enim tempore!</p>
+    <hr>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, odit?</p>
+    {% if user.is_authenticated %}
+    <div class="flex space-x-2">
+        <p class="font-mono mt-2">Welcome <span class="text-red-500 font-semibold">{{request.user}}</span></p>
+        <a href="/logout" class="text-left bg-gray-800 border-2 border-black text-white hover:bg-gray-700 hover:border-gray-600 focus:bg-black px-5 py-1.5 w-fit">Log out</a>
+    </div>
+    {% else %}
+    <div class="py-5 space-x-2">
+        <a href="/login" class="text-left bg-gray-800 border-2 border-black text-white hover:bg-gray-700 hover:border-gray-600 focus:bg-black px-5 py-1.5 w-fit">Log in</a>
+        <a href="/signup" class="text-left bg-gray-800 border-2 border-black text-white hover:bg-gray-700 hover:border-gray-600 focus:bg-black px-5 py-1.5 w-fit">Sign up</a>
+    </div>
+    {% endif %}
+</div>
+
+<h1 class="my-5 px-20 font-semibold text-2xl">Latest Post</h1>
+<div class="mx-20 w-[60%] p-5 border-2 border-gray-200 shadow-lg space-y-2">
+    <h3 class="font-semibold text-red-700 py-1">{{latest.author}}</h3>
+    <p class="text-xl">{{latest.title}}</p>
+    <span class="text-gray-500 text-sm">{{latest.timeStamp}}</span>
+    <p>{{latest.content}}</p>
+    <div>
+        <a href="/blog/{{latest.slug}}" class="text-blue-600">Continue reading...</a>
+    </div>
+</div>
+
+{% endblock body %}

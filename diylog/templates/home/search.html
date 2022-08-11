@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %} Search {% endblock title %}
+
+{% block body %}
+
+<h1 class="py-7 px-20 font-semibold text-2xl">Search Results:</h1>
+
+{% if allPosts|length < 1 %}
+
+<div class="px-20">
+    <p class="font-semibold text-xl">No search results</p>
+    <p class="font-mono py-1">Your search - <span class="font-semibold text-red-500">{{query}}</span> did not match any documents!</p>
+    <p class="font-semibold">Suggestions: Try different keywords...</p>
+</div>
+
+{% endif %}
+
+
+{% for post in allPosts %}
+<div class="mx-20 mb-5 w-[60%] p-5 border-2 border-gray-200 shadow-lg space-y-2">
+    <h3 class="font-semibold text-red-700 py-1">{{post.author}}</h3>
+    <p class="text-xl">{{post.title}}</p>
+    <span class="text-gray-500 text-sm">{{post.timeStamp}}</span>
+    <p>{{post.content | truncatechars:300}}</p>
+    <div>
+        <a href="/blog/{{post.slug}}" class="text-blue-600">Continue reading...</a>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock body %}

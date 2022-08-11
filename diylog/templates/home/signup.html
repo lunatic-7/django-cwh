@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock title %}
+
+{% block body %}
+
+
+<div class="mt-28 ml-72 p-10 w-[60%] flex justify-between border-2 border-gray-100 shadow-lg">
+    <div class="border-r-2 border-gray-200 pr-14 mt-3.5">
+        <img class="w-[27rem] h-[23rem]" src="../../static/img/blog-img.jpg" alt="">
+    </div>
+    <form method="post" action="/signup/" class="flex flex-col w-[35%]">{% csrf_token %}
+        <input class="border-b-2 border-gray-400 outline-none" type="text" placeholder="Username" id="username" name="username" required>
+        <span class="mb-2 text-xs text-gray-500 tracking-wider">alphanumeric and less than 10 chars</span>
+        <input class="border-b-2 border-gray-400 outline-none my-3" type="text" placeholder="First name" id="fname" name="fname" required>
+        <input class="border-b-2 border-gray-400 outline-none my-3" type="text" placeholder="Last name" id="lname" name="lname" required>
+        <input class="border-b-2 border-gray-400 outline-none my-3" type="email" name="email" id="email" placeholder="Email" required>
+        <input class="border-b-2 border-gray-400 outline-none my-3" type="password" name="pass1" id="pass1" placeholder="Password" required>
+        <input class="border-b-2 border-gray-400 outline-none my-3" type="password" name="pass2" id="2" placeholder="Repeat password" required>
+        <button type="submit" class="text-left my-2 bg-gray-800 border-2 border-black text-white hover:bg-gray-700 hover:border-gray-600 focus:bg-black px-5 py-1.5 w-fit">Sign up</button>
+        <a class="mt-1 text-blue-700" href="/login">Already have an account! Log in</a>
+    </form>
+</div>
+
+{% endblock body %}

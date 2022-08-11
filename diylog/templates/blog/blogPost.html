@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %} BlogPost {% endblock title %}
+
+{% block body %}
+
+<div class="p-20 space-y-2">
+    <h1 class="text-3xl font-semibold">{{post.title}}</h1>
+    <p class="text-gray-400">{{post.timeStamp}} - <a href="/about" class="text-red-500 font-medium">{{post.author}}</a></p>
+    <p class="pt-4">{{post.content}}</p>
+</div>
+<div class="px-20 space-y-2 pb-5">
+    <hr>
+    <h1 class="text-2xl font-serif">Comments ({{comments.count}})</h1>
+    {% if request.user.is_authenticated %}
+    <form class="flex flex-col w-[60%] space-y-3 pb-3" action="/blog/postComment" method="post"> {% csrf_token %}
+        <textarea name="comment" id="comment" cols="20" rows="3" placeholder="Enter your comment..." required></textarea>
+        <input type="hidden" name="postSno" id="postSno" value="{{post.sno}}">
+        <input type="hidden" name="parentSno" id="parentSno" value="">
+        <button type="submit" class="text-sm font-semibold tracking-wider bg-gray-800 border-2 border-black text-white hover:bg-gray-700 hover:border-gray-600 focus:bg-black px-5 py-1.5 w-fit">Add Comment</button>
+    </form>
+    {% else %}
+    <p><b>Please!</b> <a class="text-blue-700 font-serif" href="/login">Log in</a> to post a comment</p>
+    {% endif %}
+    {% for comment in comments %}
+    <div class="flex w-[70%] py-1">
+        <div class="mr-5 p-2">
+            <img class="w-10" src="/static/img/mano.png" alt="">
+        </div>
+        <div class="w-[100%]">
+            <div>
+                <p class="font-semibold">{{comment.user}} <span class="text-gray-500 font-serif font-normal text-xs" >{{comment.timestamp | naturaltime}}</span></p>
+            </div>
+            <p>{{comment.comment}}</p>
+            <details>
+                <summary class="text-sm font-mono text-gray-600">Reply</summary>
+                {% if request.user.is_authenticated %}
+                <form class="flex flex-col w-[60%] space-y-3 pb-3" action="/blog/postComment" method="post"> {% csrf_token %}
+                    <textarea name="comment" id="comment" cols="10" rows="2" placeholder="Enter your reply..." required></textarea>
+                    <input type="hidden" name="parentSno" id="parentSno" value="{{comment.sno}}">
+                    <input type="hidden" name="postSno" id="postSno" value="{{post.sno}}">
+                    <button type="submit" class="text-xs font-semibold tracking-wider px-5 py-1 bg-gray-800 border-2 border-black text-white hover:bg-gray-700 hover:border-gray-600 focus:bg-black w-fit">Add Reply</button>
+                </form>
+                {% else %}
+                <p><b>Please!</b> <a class="text-blue-700 font-serif" href="/login">Log in</a> to post a reply</p>
+                {% endif %}
+            
+                {% for key, reply in replyDict.items %}
+                <div class="w-[70%] py-1">
+                    {% if key == comment.sno %}
+                    {% for rep in reply %}
+                    <div class="flex">
+                    <div class="mr-5 p-2">
+                        <img class="w-10" src="/static/img/mano.png" alt="">
+                    </div>
+                    <div class="w-[100%]">
+                        <div>
+                            <p class="font-semibold">{{rep.user}} <span class="text-gray-500 font-serif font-normal text-xs" >{{rep.timestamp | naturaltime}}</span></p>
+                        </div>
+                        <p>{{rep.comment}}</p>
+                    </div>
+                </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </details>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock body %}

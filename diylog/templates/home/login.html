@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock title %}
+
+{% block body %}
+
+<div class="mt-36 ml-80 p-10 w-[50%] flex justify-between border-2 border-gray-100 shadow-lg">
+    <div class="border-r-2 border-gray-200 pr-7">
+        <img class="w-96 h-80" src="../../static/img/blog-img.jpg" alt="">
+    </div>
+    <form method="post" action="/login/" class="flex flex-col my-12 w-[35%]">{% csrf_token %}
+        <input class="border-b-2 border-gray-400 outline-none my-4" type="text" name="loginusername" id="loginusername" placeholder="Username" required>
+        <input class="border-b-2 border-gray-400 outline-none my-4" type="password" name="loginpassword" id="loginpassword" placeholder="Password" required>
+        <button type="submit" class="text-left my-3 bg-gray-800 border-2 border-black text-white hover:bg-gray-700 hover:border-gray-600 focus:bg-black px-5 py-1.5 w-fit">Log in</button>
+        <a class="mt-2 text-blue-700" href="/signup">Don't have an account! Sign up</a>
+    </form>
+</div>
+
+{% endblock body %}
