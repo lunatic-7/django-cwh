@@ -1,0 +1,27 @@
+{% extends 'accounts/main.html' %}
+
+{% block body %}
+
+<h1 class="text-3xl font-mono font-semibold pt-10 pl-16">Products</h1>
+
+<div class="bg-slate-100 m-10 shadow-md p-5 pr-20">
+    <hr>
+    <table class="font-mono font-semibold text-lg w-[100%]">
+        <tr>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Price</th>
+        </tr>
+        
+        {% for i in products %}
+        <tr class="w-[100%] text-center font-normal text-base">
+            <td>{{i.name}}</td>
+            <td>{{i.category}}</td>
+            <td>{{i.price}}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+{% endblock body %}

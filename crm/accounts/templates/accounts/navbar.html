@@ -1,0 +1,20 @@
+{% load static %}
+
+<nav class="flex justify-between bg-slate-900 text-white p-3.5 opacity-90">
+    <ul class="flex space-x-7">
+        <img class="w-25 h-6" src="{% static '/images/logo1.png' %}" alt="">
+        {% if request.user.is_staff %}
+        <!-- Here we are handling urls the django way, we are calling them with their names, it is same as "/" -->
+        <li><a href="{% url 'home' %}">Dashboard</a></li>
+        <!-- Here we are handling urls the django way, we are calling them with their names, it is same as "/products" -->
+        <li><a href="{% url 'products' %}">Products</a></li>
+        {% else %}
+        <li><a href="{% url 'account' %}">Accounts</a></li>
+        {% endif %}
+
+    </ul>
+    <div class="flex space-x-5">
+        <h4>Welcome, <span class="font-mono font-semibold text-red-400">{{request.user}}</span></h4>
+        <a class="font-mono font-bold hover:text-gray-300" href="{% url 'logout' %}">Log out</a>
+    </div>
+</nav>

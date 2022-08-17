@@ -1,0 +1,16 @@
+{% extends 'accounts/main.html' %}
+
+{% block body %}
+
+<form action="" method="post"> {% csrf_token %}
+    <div class="p-7 space-y-3">
+        {{formset.management_form}}
+        {% for form in formset %}
+            {{form}}
+            <hr>
+        {% endfor %}
+    </div>
+    <button type="submit" class="bg-slate-700 text-white px-4 py-2 font-mono tracking-wider ml-7">SUBMIT</button>
+</form>
+
+{% endblock body %}

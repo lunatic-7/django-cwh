@@ -1,0 +1,33 @@
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% tailwind_css %}
+    <title>Register</title>
+</head>
+<body>
+    
+    <form class="px-24 py-12 flex flex-col w-fit bg-slate-200 mt-36 ml-[37%]" action="" method="post"> {% csrf_token %}
+        <h1 class="font-mono text-2xl font-semibold tracking-wider text-center pb-5">REGISTER</h1>
+        {{form.username.label}}
+        {{form.username}}
+    
+        {{form.email.label}}
+        {{form.email}}
+        
+        {{form.password1.label}}
+        {{form.password1}}
+    
+        {{form.password2.label}}
+        {{form.password2}}
+        <button class="bg-black text-white px-4 py-2 my-3" type="submit">SUBMIT</button>
+        {{form.errors}}
+        <p>Already have an account <a class="text-blue-600" href="{% url 'login' %}">Log in</a> instead!</p>
+    </form>
+
+</body>
+</html>
+

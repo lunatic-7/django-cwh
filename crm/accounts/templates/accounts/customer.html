@@ -1,0 +1,61 @@
+{% extends 'accounts/main.html' %}
+
+{% block body %}
+
+<div class="flex justify-between font-mono font-semibold text-xl m-10">
+    <div class="bg-slate-100 w-[30%] p-5 shadow-md">
+        <h1>Customer</h1>
+        <hr>
+        <div class="flex flex-col space-y-3 py-2">
+            <button class="border-2 py-1 border-green-400 text-green-500 text-base font-normal">Update Customer</button>
+            <a href="{% url 'order_form' customer.id %}" class="text-center border-2 border-blue-400 py-1 text-blue-500 text-base font-normal">Place Order</a>
+        </div>
+    </div>
+    <div class="bg-slate-100 w-[30%] p-5 shadow-md">
+        <h1>Contact Information</h1>
+        <hr>
+        <div class="flex flex-col space-y-3 py-2">
+            <p>Email: <span class="text-base font-medium">{{customer.email}}</span></p>
+            <p>Phone: <span class="text-base font-medium">{{customer.phone}}</span></p>
+        </div>
+    </div>
+    <div class="bg-slate-100 w-[30%] p-5 shadow-md text-center">
+        <h1>Total Orders</h1>
+        <hr>
+        <h2 class="text-3xl p-5">{{customer.order_set.count}}</h2>
+    </div>
+</div>
+
+<form method="get" class="bg-slate-100 m-10 p-10 shadow-md">
+    {{myFilter.form}}
+    <button class="bg-blue-400 py-2 px-4 text-white font-mono hover:bg-blue-600 pb-1 ml-2">Search</button>
+    <br>
+</form>
+
+<div class="bg-slate-100 m-10 shadow-md p-5">
+    <hr>
+    <table class="font-mono font-semibold text-lg w-[100%]">
+        <tr>
+            <th>Product</th>
+            <th>Note</th>
+            <th>Date Ordered</th>
+            <th>Status</th>
+            <th>Update</th>
+            <th>Remove</th>
+        </tr>
+        
+        {% for order in orders %}
+        <tr class="w-[100%] text-center font-normal text-base">
+            <td>{{order.product}}</td>
+            <td>{{order.note}}</td>
+            <td>{{order.date_created}}</td>
+            <td>{{order.status}}</td>
+            <td><a class="text-green-600 hover:border-b-2 hover:border-green-700" href="{% url 'update_form' order.id %}">UPDATE</a></td>
+            <td><a class="text-red-600 hover:border-b-2 hover:border-red-700" href="{% url 'delete_form' order.id %}">REMOVE</a></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+{% endblock body %}

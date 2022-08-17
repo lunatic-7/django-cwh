@@ -1,0 +1,14 @@
+{% extends 'accounts/main.html' %}
+
+{% block body %}
+
+<div class="p-7 bg-slate-200 shadow-lg w-fit m-7">
+    <p>Are you sure, you want to delete: {{item}}?</p>
+    
+    <form action="{% url 'delete_form' item.id %}" method="post" class="space-x-20 pt-2"> {% csrf_token %}
+        <a class="text-red-600 hover:border-b-2 hover:border-red-700" href="{% url 'home' %}">Cancel</a>
+        <button class="text-green-700 hover:border-b-2 hover:border-green-700" type="submit">Confirm</button>
+    </form>
+</div>
+
+{% endblock body %}

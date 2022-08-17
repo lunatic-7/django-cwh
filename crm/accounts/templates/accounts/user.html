@@ -1,0 +1,29 @@
+{% extends 'accounts/main.html' %}
+
+{% block body %}
+
+{% include 'accounts/status.html' %}
+
+<div class="bg-slate-100 m-10 shadow-md p-5">
+    <hr>
+    <table class="font-mono font-semibold text-lg w-[100%]">
+        <tr>
+            <th>Product</th>
+            <th>Note</th>
+            <th>Date Ordered</th>
+            <th>Status</th>
+        </tr>
+        
+        {% for order in orders %}
+        <tr class="w-[100%] text-center font-normal text-base">
+            <td>{{order.product}}</td>
+            <td>{{order.note}}</td>
+            <td>{{order.date_created}}</td>
+            <td>{{order.status}}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+{% endblock body %}
